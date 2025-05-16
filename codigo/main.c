@@ -12,6 +12,22 @@ struct Contato {
     char email[100]; // email do contato
 };
 
+void formataTelefone(char telefone[]) {
+    // formata o telefone para o formato (31) 99999-9999
+    char telefoneFormatado[16];
+    snprintf(telefoneFormatado, sizeof(telefoneFormatado), "(%c%c) %c%c%c%c%c-%c%c%c%c", 
+             telefone[0], telefone[1], telefone[2], telefone[3], telefone[4], telefone[5], 
+             telefone[6], telefone[7], telefone[8], telefone[9], telefone[10]);
+    printf("Telefone: %s\n", telefoneFormatado);
+}
+
+void imprimirContato(struct Contato contatos[], int i) {
+    printf("\nID: %d\n", contatos[i].id);
+    printf("Nome: %s\n", contatos[i].nome);
+    formataTelefone(contatos[i].telefone); //TODO: transformar o telefone para o formato (31) 99999-9999
+    printf("Email: %s\n", contatos[i].email);
+}
+
 // função authEmail
 // verifica se o email é válido
 bool authEmail(char email[]) {
@@ -52,11 +68,7 @@ void preenche(struct Contato contatos[], int cont) {
 void listar(struct Contato contatos[], int cont) {
     printf("Lista de contatos:\n"); 
     for (int i = 0; i < cont; i++) {
-        // TODO: criar procedimento para imprimir dados do contato
-        printf("\nID: %d\n", contatos[i].id);
-        printf("Nome: %s\n", contatos[i].nome);
-        printf("Telefone: %s\n", contatos[i].telefone); //TODO: transformar o telefone para o formato (31) 99999-9999
-        printf("Email: %s\n", contatos[i].email);
+        imprimirContato(contatos, i); // chama a função imprimirContato para imprimir os dados do contato
         printf("------------------------\n");
     }
 }
