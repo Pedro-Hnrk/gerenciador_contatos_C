@@ -65,12 +65,77 @@ void preenche(struct Contato contatos[], int cont) {
 
 // procedimento listar
 // imprime a lista de contatos
-void listar(struct Contato contatos[], int cont) {
+void lista(struct Contato contatos[], int cont) {
     printf("Lista de contatos:\n"); 
     for (int i = 0; i < cont; i++) {
         imprimirContato(contatos, i); // chama a função imprimirContato para imprimir os dados do contato
         printf("------------------------\n");
     }
+}
+
+void searchOP(struct Contato contatos[], int cont, struct Contato find) {
+    for (int i = 0; i < cont; i++) {
+        if (contatos[i].id == find.id || strcmp(contatos[i].nome, find.nome) == 0 || 
+            strcmp(contatos[i].telefone, find.telefone) == 0 || strcmp(contatos[i].email, find.email) == 0) {
+            printf("Contato encontrado:\n");
+            imprimirContato(contatos, i);
+            return;
+        }
+    }
+    printf("Contato não encontrado!\n");
+}
+
+void findContato(struct Contato contatos[], int cont) {
+    int op = 0;
+    struct Contato find;
+   do {
+        printf("Selecione o modo de busca:\n");
+        printf("1 - Id\n");
+        printf("2 - Nome\n");
+        printf("3 - Telefone\n");
+        printf("4 - Email\n");
+        printf("-1 - Sair\n");
+        scanf("%d", &op);
+        fflush(stdin);
+        switch (op) {
+            case 1:
+                printf("Digite o id do contato: ");
+                scanf("%d", &find.id);
+                fflush(stdin);
+                searchOP(contatos, cont, find);
+                find.id = 0; // zera o id para evitar busca por id novamente
+                break;
+            case 2:
+                printf("Digite o nome do contato: ");
+                scanf("%s", &find.nome);
+                fflush(stdin);
+                searchOP(contatos, cont, find);
+                find.nome[0] = '\0'; // zera o nome para evitar busca por nome novamente
+                break;
+            case 3:
+                printf("Digite o telefone do contato: ");
+                scanf("%s", &find.telefone);
+                fflush(stdin);
+                searchOP(contatos, cont, find);
+                find.telefone[0] = '\0';
+                break;
+            case 4:
+                printf("Digite o email do contato: ");
+                scanf("%s", &find.email);
+                fflush(stdin);
+                searchOP(contatos, cont, find);
+                find.email[0] = '\0';
+                break;
+            
+            case -1:
+                printf("Saindo...\n");
+                break;
+            
+            default:
+                printf("Opção inválida!\n");
+                break;
+        }
+    } while (op != -1);
 }
 
 int main() {
@@ -84,7 +149,8 @@ int main() {
     do { // loop até o usuário digitar -1
         printf("\tMenu:\t\n1 - Adicionar contato\n");
         printf("2 - Listar contatos\n");
-        printf("digite a opção: ");
+        printf("3 - Selecionar contato\n");
+        printf("digite a opção: "); 
         scanf("%d", &op);
         fflush(stdin);
         printf("\n");
@@ -97,9 +163,17 @@ int main() {
             break;
         
         case 2: // lista contatos
-            listar(contatos, cont);
+            lista(contatos, cont);
             break;
         
+        case 3: // seleciona contato
+            findContato(contatos, cont);
+            break;
+
+        case -1:
+            printf("Saindo...\n");
+            break;
+
         default:
             printf("Opção inválida!");
             break;
