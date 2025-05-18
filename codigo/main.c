@@ -49,6 +49,11 @@ void preenche(struct Contato contatos[], int cont) {
         contatos[i].id = i + 1; // atribui o id do contato
         printf("digite o telefone (31999999999): "); 
         scanf("%s", &contatos[i].telefone); // atribui o telefone do contato
+
+        FILE *file;// cria o arquivo
+        file = fopen(contatos[i].telefone, "w"); // cria o arquivo
+        fprintf(file,contatos[i].telefone); // salvo o valor da variável
+        // TODO: copiar arquivos para pasta banco de dados, converter nome do arquivo para id do contato, converter id de string para char
         fflush(stdin);
         printf("digite o nome do contato:"); 
         scanf("%s", &contatos[i].nome); // atribui o nome do contato
