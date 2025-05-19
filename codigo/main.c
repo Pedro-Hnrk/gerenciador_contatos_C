@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <direct.h>
 
 // struct Contato
 // armazena os dados do contato
@@ -41,6 +42,33 @@ bool authEmail(char email[]) {
     }
 }
 
+void create(struct Contato contatos[], int cont) {
+    // Cria o diretório "database" (se não existir)
+    // Nota: mkdir é específico do sistema (Unix/Windows), pode exigir permissões
+    _mkdir("database"); // Unix: permissões 0777, Windows: ignorado
+
+    // Cria o caminho do arquivo: database/[id].txt
+    char filename[50];
+    snprintf(filename, sizeof(filename), "database/#0%d.txt", contatos[cont].id);
+
+    // Abre o arquivo para escrita
+    FILE *file = fopen(filename, "w");
+    if (file == NULL) {
+        perror("Erro ao abrir arquivo");
+        return;
+    }
+
+    // Escreve o ID (e outros dados se necessário) no arquivo
+    fprintf(file, "ID: %d\nNome: %s\nTelefone: %s\nEmail:%s\n", 
+        contatos[cont].id, 
+        contatos[cont].nome, 
+        contatos[cont].telefone,
+        contatos[cont].email);
+    // Adicione aqui outros campos da struct Contato
+
+    fclose(file); // Fecha o arquivo
+}
+
 // procedimento preenche
 // preenche os dados do contato
 // recebe como parâmetro o vetor de contatos e o contador de contatos
@@ -49,11 +77,6 @@ void preenche(struct Contato contatos[], int cont) {
         contatos[i].id = i + 1; // atribui o id do contato
         printf("digite o telefone (31999999999): "); 
         scanf("%s", &contatos[i].telefone); // atribui o telefone do contato
-
-        FILE *file;// cria o arquivo
-        file = fopen(contatos[i].telefone, "w"); // cria o arquivo
-        fprintf(file,contatos[i].telefone); // salvo o valor da variável
-        // TODO: copiar arquivos para pasta banco de dados, converter nome do arquivo para id do contato, converter id de string para char
         fflush(stdin);
         printf("digite o nome do contato:"); 
         scanf("%s", &contatos[i].nome); // atribui o nome do contato
@@ -63,7 +86,7 @@ void preenche(struct Contato contatos[], int cont) {
         scanf("%s", &contatos[i].email); // atribui o email do contato
         fflush(stdin);
         }while (!authEmail(contatos[i].email));
-
+        create(contatos, cont);
         printf("Contato %d adicionado com sucesso!\n", contatos[i].id); // imprime mensagem de sucesso
     }
 }
