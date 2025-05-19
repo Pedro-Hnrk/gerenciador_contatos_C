@@ -13,6 +13,32 @@ struct Contato {
     char email[100]; // email do contato
 };
 
+int read_cont() {
+    // Cria o diretório se não existir
+    _mkdir("database"); // Unix
+    
+    FILE *file = fopen("database/contador.txt", "r");
+    if (file == NULL) {
+        return 0; // Retorna 0 se o arquivo não existir
+    }
+    
+    int contador;
+    fscanf(file, "%d", &contador);
+    fclose(file);
+    return contador;
+}
+
+void write_cont(int contador) {
+    FILE *file = fopen("database/contador.txt", "w");
+    if (file == NULL) {
+        perror("Erro ao salvar contador");
+        return;
+    }
+    
+    fprintf(file, "%d", contador);
+    fclose(file);
+}
+
 void formataTelefone(char telefone[]) {
     // formata o telefone para o formato (31) 99999-9999
     char telefoneFormatado[16];
@@ -169,7 +195,7 @@ void findContato(struct Contato contatos[], int cont) {
 int main() {
     int max_len = 10; // tamanho máximo do vetor de contatos
     int op = 0; // variável para armazenar a opção do usuário
-    int cont = 0; // contador de contatos
+    int cont = read_cont(); // contador de contatos
     // aloca memória para o vetor de contatos
     struct Contato *contatos = (struct Contato*)malloc(max_len * sizeof(struct Contato));
     
@@ -187,7 +213,8 @@ int main() {
         {
         case 1: // adiciona contato
             preenche(contatos, cont);
-            cont++; // incrementa o contador de contatos
+            cont++;
+            write_cont(cont); // incrementa o contador de contatos
             break;
         
         case 2: // lista contatos
