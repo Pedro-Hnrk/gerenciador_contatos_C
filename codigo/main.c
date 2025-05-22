@@ -15,7 +15,7 @@ struct Contato {
 
 int read_cont() {
     // Cria o diretório se não existir
-    _mkdir("database"); // Unix
+    _mkdir("database");
     
     FILE *file = fopen("database/contador.txt", "r");
     if (file == NULL) {
@@ -51,7 +51,7 @@ void formataTelefone(char telefone[]) {
 void imprimirContato(struct Contato contatos[], int i) {
     printf("\nID: %d\n", contatos[i].id);
     printf("Nome: %s\n", contatos[i].nome);
-    formataTelefone(contatos[i].telefone); //TODO: transformar o telefone para o formato (31) 99999-9999
+    formataTelefone(contatos[i].telefone); 
     printf("Email: %s\n", contatos[i].email);
 }
 
