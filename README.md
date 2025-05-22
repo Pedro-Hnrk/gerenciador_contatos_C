@@ -1,5 +1,4 @@
 Sistema de Gerenciamento de Contatos em C
-License: MIT
 
 📌 Visão Geral
 Sistema de gerenciamento de contatos desenvolvido em C que armazena dados em formato CSV, com interface de linha de comando intuitiva e validação de dados.
@@ -99,8 +98,5 @@ Faça fork e envie PRs
 
 Sugira melhorias na documentação
 
-📄 Licença
-MIT License - Consulte o arquivo LICENSE para detalhes completos.
-
-Desenvolvido para fins educacionais - 2023
+Desenvolvido para fins educacionais - 2025
 
